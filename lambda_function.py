@@ -30,8 +30,11 @@ def lambda_handler(event, context):
         
         #upload json file to target bucket
         
-        s3_client.put_object(Bucket='doordash-target-zonee' ,Key=output_file_name,Body=df_filtered_json_data)
-
+        with open('/tmp/2024-03-09-output.json', 'w') as f:
+            f.write(df_filtered_json_data)
+        
+        s3_client.upload_file('/tmp/2024-03-09-output.json', 'doordash-target-zonee', '2024-03-09-output.json')
+        
         message = "Input S3 File {} has been processed succesfuly with order status as Delivered !!".format("s3://"+bucket_name+"/"+s3_file_key)
         response = sns_client.publish(Subject="Daily Data Processing and Filtering successful",TargetArn=sns_arn, Message=message, MessageStructure='text')
     except Exception as err:
