@@ -29,15 +29,9 @@ def lambda_handler(event, context):
                 
         #write data to json
         
-        df_filtered_json_data =  df_filtered_data.to_json(output_file_name,orient='records')
+        df_filtered_json_data =  df_filtered_data.to_json(orient='records')
         print(df_filtered_json_data)
-        #upload json file to target bucket
-        
-        # with open('/tmp/2024-03-09-output.json', 'w') as f:
-        #     f.write(df_filtered_json_data)
-        
-        # s3_client.upload_file('/tmp/2024-03-09-output.json', 'doordash-target-zonee', '2024-03-09-output.json')
-        
+        #upload json file to target bucket  
         try:
             s3_client.put_object(Bucket='doordash-target-zonee', Key='output.json', Body=df_filtered_json_data)
             print("Filtered DataFrame uploaded to S3 successfully.")
