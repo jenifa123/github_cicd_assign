@@ -12,7 +12,7 @@ phases:
       - cd lib
       - zip -r9 ../deployment_package_assign.zip .
       - cd ..
-      - zip -g deployment_package_assign.zip sns_check_data.py
+      - zip -g deployment_package_assign.zip lambda_function.py
   post_build:
     commands:
       - echo "Uploading to S3..."
