@@ -19,9 +19,10 @@ def lambda_handler(event, context):
         print(s3_file_key)
         resp = s3_client.get_object(Bucket=bucket_name, Key=s3_file_key)
         print(resp['Body'])
-        data =  resp['Body'].read()
-        json_data = StringIO(data)
-        df_s3_data = pd.read_json(json_data)
+        data =  resp['Body'].read().decode('utf-8')
+        
+        print(data)
+        df_s3_data = pd.read_json(data)
         print('File read successfully')
         
         df_filtered_data = df_s3_data[df_s3_data['status']=='delivered']
